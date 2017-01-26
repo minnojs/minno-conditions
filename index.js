@@ -22,13 +22,21 @@ export function agregate(condition, test){
  * Test a condition proposition
  */
 export function test(ctx, condition){
-    const {left, right, operator} = condition;
+    const {left, right, operator, debug} = condition;
     if (!('left' in condition && 'right' in condition )) throw new Error('Conditions must define both the left and right of a proposition');
-    return compare(
-        getValue(left, ctx),
-        getValue(right, ctx),
-        operator
-    );
+    const leftValue = getValue(left, ctx);
+    const rightValue = getValue(right, ctx);
+
+    if (debug) {
+        /*eslint-disable no-console */
+        console.info('Condition:', JSON.stringify(condition));
+        console.info('Left:', left, '-->', leftValue);
+        console.info('Operator:', operator || 'equals');
+        console.info('Right:', right, '-->', rightValue);
+        /*eslint-enable no-console */
+    }
+    
+    return compare(leftValue, rightValue, operator);
 }
 
 function getValue(path, ctx){

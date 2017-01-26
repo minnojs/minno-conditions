@@ -16,6 +16,15 @@ Argument     | Type                                 | Required | Description
 ## Conditions
 Conditions are POJO that describe a proposition. 
 You can think of them as equations.
+
+Argument     | Type                                 | Required | Description
+------------ | ------------------------------------ | -------- | ---
+`left`       | `Any`                                | Yes      | The left element of the equation
+`right`      | `Any`                                | Yes      | The right element of the equation
+`operator`   | `String|Function`                    | No       | The type of comparison to make
+`debug`      | `Boolean`                            | No       | Whether to log this condition to the console
+
+### Left and Right
 Each MUST have both a `left` and a `right` property that corespond to the left and right sides of the equation.
 
 ```javascript
@@ -33,6 +42,7 @@ conditions({left:'obj.score', right:12}, {obj:{score:12}}); // true
 conditions({left:'arr[1]', right:12}, {arr:[1,2]}); // false
 ```
 
+### Operator
 You can choose the method for comparison using the `operator` parameter:
 
 ```javascript
@@ -61,6 +71,15 @@ You can also use a custom operator by setting it to a function:
 ```javascript
 // start with the same letter
 conditions({left:'hello', right:'hi', operator: (left,right) => left[0] === right[0]}, ctx); // true
+```
+
+### Debug
+Conditions tend to get rather complicated, many time you will want to know what exactly you are comparing.
+You can add `debug:true` to any comparison in order to get a log of the comparison (check your console to see the logs).
+It is not advisable to set this on too many conditions, this will flood your console and render the information useless.
+
+```javascript
+conditions({left:1, right:1, debug:true}, ctx);
 ```
 
 ## Agregators
